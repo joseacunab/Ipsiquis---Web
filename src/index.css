@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Montserrat', system-ui, sans-serif;
+  }
+  body {
+    background-color: #F8F9FA;
+    color: #1A1A2E;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .dark body {
+    background-color: #0A0A0A;
+    color: #FFFFFF;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface rounded-card shadow-card transition-shadow dark:bg-dark-surface dark:shadow-black/30;
+  }
+  .card-hover:hover {
+    @apply shadow-card-hover;
+  }
+  .btn-primary {
+    @apply bg-primary text-text-inverse px-4 py-2.5 rounded-btn font-semibold text-sm
+           hover:bg-primary-dark active:scale-95 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed
+           dark:bg-white/15 dark:text-white dark:hover:bg-white/25;
+  }
+  .btn-secondary {
+    @apply bg-surface text-primary border border-border px-4 py-2.5 rounded-btn font-semibold text-sm
+           hover:bg-accent-soft active:scale-95 transition-all duration-200
+           dark:bg-dark-surface-alt dark:text-white dark:border-dark-border dark:hover:bg-white/10;
+  }
+  .btn-danger {
+    @apply bg-error text-text-inverse px-4 py-2.5 rounded-btn font-semibold text-sm
+           hover:bg-red-700 active:scale-95 transition-all duration-200;
+  }
+  .input-field {
+    @apply w-full px-4 py-3 rounded-btn border border-border bg-surface text-text-primary text-sm
+           focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent
+           placeholder:text-text-muted transition-all
+           dark:bg-dark-surface-alt dark:border-dark-border dark:text-white dark:placeholder:text-gray-500;
+  }
+  .textarea-field {
+    @apply w-full px-4 py-3 rounded-btn border border-border bg-surface text-text-primary text-sm
+           focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent
+           placeholder:text-text-muted transition-all resize-none
+           dark:bg-dark-surface-alt dark:border-dark-border dark:text-white dark:placeholder:text-gray-500;
+  }
+  .select-field {
+    @apply w-full px-4 py-3 rounded-btn border border-border bg-surface text-text-primary text-sm
+           focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent
+           transition-all appearance-none cursor-pointer
+           dark:bg-dark-surface-alt dark:border-dark-border dark:text-white;
+  }
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-btn text-sm font-medium text-text-muted
+           hover:bg-surface-alt hover:text-text-primary transition-all cursor-pointer
+           dark:text-gray-400 dark:hover:bg-dark-surface-alt dark:hover:text-white;
+  }
+  .nav-item.active {
+    @apply bg-primary text-text-inverse hover:bg-primary-dark hover:text-text-inverse dark:bg-white/15 dark:text-white dark:hover:bg-white/25 dark:hover:text-white;
+  }
+  .tab-btn {
+    @apply px-4 py-2 rounded-chip text-sm font-medium transition-all;
+  }
+  .tab-btn.active {
+    @apply bg-primary text-text-inverse dark:bg-white/15 dark:text-white;
+  }
+  .tab-btn.inactive {
+    @apply bg-transparent text-text-muted hover:text-text-primary hover:bg-surface-alt
+           dark:text-gray-400 dark:hover:text-white dark:hover:bg-dark-surface-alt;
+  }
+  .badge {
+    @apply px-2.5 py-1 rounded-chip text-xs font-semibold;
+  }
+  .modal-overlay {
+    @apply fixed inset-0 bg-primary/40 backdrop-blur-sm z-40 flex items-center justify-center p-4;
+  }
+  .modal-box {
+    @apply bg-surface rounded-card shadow-card-hover w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6
+           dark:bg-dark-surface;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+}

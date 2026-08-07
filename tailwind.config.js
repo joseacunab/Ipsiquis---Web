@@ -1,0 +1,55 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: 'class',
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'dark-bg': '#0A0A0A',
+        'dark-surface': '#141414',
+        'dark-surface-alt': '#1E1E1E',
+        'dark-border': '#262626',
+        primary: '#002147',
+        'primary-dark': '#00152E',
+        'primary-light': '#003366',
+        secondary: '#1E56A0',
+        accent: '#3282B8',
+        'accent-light': '#5DA9D6',
+        'accent-soft': '#E8F4FD',
+        background: '#F8F9FA',
+        surface: '#FFFFFF',
+        'surface-alt': '#F0F2F5',
+        'text-primary': '#1A1A2E',
+        'text-secondary': '#5A6578',
+        'text-muted': '#8A94A6',
+        'text-inverse': '#FFFFFF',
+        success: '#2D8A5E',
+        'success-light': '#E8F5EE',
+        warning: '#D4A017',
+        'warning-light': '#FDF6E3',
+        error: '#C0392B',
+        'error-light': '#FDECEC',
+        border: '#E2E8F0',
+        'border-light': '#EDF1F7',
+        divider: '#F0F2F5',
+      },
+      fontFamily: {
+        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        'card': '16px',
+        'btn': '12px',
+        'chip': '10px',
+      },
+      boxShadow: {
+        'card': '0 4px 12px rgba(0,33,71,0.06)',
+        'card-hover': '0 8px 24px rgba(0,33,71,0.10)',
+        'sidebar': '4px 0 12px rgba(0,33,71,0.04)',
+      },
+    },
+  },
+  plugins: [],
+}
