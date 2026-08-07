@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Plus, Search, Edit2, Trash2, Dumbbell, Clock, X, Save, ChevronDown, ChevronUp, ChevronsUp, ChevronsDown, ListOrdered } from 'lucide-react';
-import type { Ejercicio, Categoria } from '../types';
-import { crearEjercicio, actualizarEjercicio, eliminarEjercicio, moverEjercicio, siguienteOrden } from '../dataLayer';
+import type { Ejercicio, Categoria } from '../modelos/tipos';
+import { crearEjercicio, actualizarEjercicio, eliminarEjercicio, moverEjercicio, siguienteOrden } from '../servicios/firestore';
 
-interface ExercisesManagerProps {
+interface PantallaEjerciciosProps {
   ejercicios: Ejercicio[];
   categorias: Categoria[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
@@ -16,7 +16,7 @@ function ejercicioVacio(orden: number, categoriaId: string): Ejercicio {
   return { id: generarId(), titulo: '', descripcion: '', categoriaId, duracion: '10 min', autor: 'Ps. Juan M. S', orden, procedimiento: '' };
 }
 
-export default function ExercisesManager({ ejercicios, categorias, onNotificar, onConfirmar }: ExercisesManagerProps) {
+export default function PantallaEjercicios({ ejercicios, categorias, onNotificar, onConfirmar }: PantallaEjerciciosProps) {
   const [busqueda, setBusqueda] = useState('');
   const [filtroCategoria, setFiltroCategoria] = useState('all');
   const [editando, setEditando] = useState<Ejercicio | null>(null);
@@ -102,7 +102,7 @@ export default function ExercisesManager({ ejercicios, categorias, onNotificar, 
       </div>
 
       {mostrarFormulario && editando && (
-        <ExerciseFormulario ejercicio={editando} categorias={categoriasOrdenadas} guardando={guardando} onGuardar={guardarEjercicio} onCancelar={() => { setMostrarFormulario(false); setEditando(null); }} />
+        <EjercicioFormulario ejercicio={editando} categorias={categoriasOrdenadas} guardando={guardando} onGuardar={guardarEjercicio} onCancelar={() => { setMostrarFormulario(false); setEditando(null); }} />
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -153,7 +153,7 @@ export default function ExercisesManager({ ejercicios, categorias, onNotificar, 
   );
 }
 
-function ExerciseFormulario({ ejercicio: inicial, categorias, guardando, onGuardar, onCancelar }: { ejercicio: Ejercicio; categorias: Categoria[]; guardando: boolean; onGuardar: (e: Ejercicio) => void; onCancelar: () => void }) {
+function EjercicioFormulario({ ejercicio: inicial, categorias, guardando, onGuardar, onCancelar }: { ejercicio: Ejercicio; categorias: Categoria[]; guardando: boolean; onGuardar: (e: Ejercicio) => void; onCancelar: () => void }) {
   const [ex, setEx] = useState<Ejercicio>({ ...inicial });
   const actualizar = (patch: Partial<Ejercicio>) => setEx(prev => ({ ...prev, ...patch }));
 

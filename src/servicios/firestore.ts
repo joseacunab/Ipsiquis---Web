@@ -3,7 +3,7 @@ import {
   type Unsubscribe,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Test, Ejercicio, ArticuloBlog, PerfilPsicologo, Categoria, LineaEmergencia, Paciente, ConfiguracionApp } from './types';
+import type { Test, Ejercicio, ArticuloBlog, PerfilPsicologo, Categoria, LineaEmergencia, Paciente, ConfiguracionApp } from '../modelos/tipos';
 
 /* ────────────────────  colecciones de Firestore  ──────────────────── */
 

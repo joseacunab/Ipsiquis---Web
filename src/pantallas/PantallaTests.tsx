@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Plus, Search, Edit2, Trash2, FileText, Clock, HelpCircle, X, ChevronDown, ChevronUp, Save, ChevronsUp, ChevronsDown } from 'lucide-react';
-import type { Test, Pregunta, Categoria } from '../types';
-import { crearTest, actualizarTest, eliminarTest, moverTest, siguienteOrden } from '../dataLayer';
+import type { Test, Pregunta, Categoria } from '../modelos/tipos';
+import { crearTest, actualizarTest, eliminarTest, moverTest, siguienteOrden } from '../servicios/firestore';
 
-interface TestsManagerProps {
+interface PantallaTestsProps {
   tests: Test[];
   categorias: Categoria[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
@@ -19,7 +19,7 @@ function testVacio(orden: number, categoriaId: string): Test {
   };
 }
 
-export default function TestsManager({ tests, categorias, onNotificar, onConfirmar }: TestsManagerProps) {
+export default function PantallaTests({ tests, categorias, onNotificar, onConfirmar }: PantallaTestsProps) {
   const [busqueda, setBusqueda] = useState('');
   const [filtroCategoria, setFiltroCategoria] = useState<string>('all');
   const [editando, setEditando] = useState<Test | null>(null);

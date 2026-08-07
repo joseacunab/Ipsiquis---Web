@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { User, Mail, Phone, MapPin, Award, GraduationCap, Briefcase, Globe, Plus, X, Save, CheckCircle, FolderKanban, Sparkles } from 'lucide-react';
-import type { PerfilPsicologo } from '../types';
-import { IconoInstagram, IconoYoutube, IconoLinkedin } from '../iconos';
-import { guardarPerfil } from '../dataLayer';
+import type { PerfilPsicologo } from '../modelos/tipos';
+import { IconoInstagram, IconoYoutube, IconoLinkedin } from '../constantes/iconos';
+import { guardarPerfil } from '../servicios/firestore';
 
-interface PerfilPsicologoProps {
+interface PantallaPerfilProps {
   perfil: PerfilPsicologo;
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
 }
@@ -13,7 +13,7 @@ function reordenar<T extends { orden: number }>(lista: T[]): T[] {
   return (lista ?? []).map((item, i) => ({ ...item, orden: i + 1 }));
 }
 
-export default function PerfilPsicologoManager({ perfil: inicial, onNotificar }: PerfilPsicologoProps) {
+export default function PantallaPerfil({ perfil: inicial, onNotificar }: PantallaPerfilProps) {
   const [perfil, setPerfil] = useState<PerfilPsicologo>({ ...inicial });
   const [editando, setEditando] = useState(false);
   const [guardando, setGuardando] = useState(false);
@@ -62,7 +62,7 @@ export default function PerfilPsicologoManager({ perfil: inicial, onNotificar }:
               <button onClick={guardar} disabled={guardando} className="btn-primary flex items-center gap-2 disabled:opacity-60"><Save size={16} /> Guardar Cambios</button>
             </>
           ) : (
-            <button onClick={() => setEditando(true)} className="btn-primary flex items-center gap-2"><EditIcon size={16} /> Editar Perfil</button>
+            <button onClick={() => setEditando(true)} className="btn-primary flex items-center gap-2"><IconoEditar size={16} /> Editar Perfil</button>
           )}
         </div>
       </div>
@@ -315,7 +315,7 @@ function ListaDeChips({ titulo, items, editando, placeholder, onCambiar }: { tit
   );
 }
 
-function EditIcon({ size, className }: { size?: number; className?: string }) {
+function IconoEditar({ size, className }: { size?: number; className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
       <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />

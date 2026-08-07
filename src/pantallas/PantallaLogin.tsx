@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { Heart, Loader2 } from 'lucide-react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../servicios/firebase';
 
-interface LoginProps {
+interface PantallaLoginProps {
   errorPermiso?: string | null;
 }
 
@@ -23,7 +23,7 @@ function mensajeError(codigo: string): string {
   }
 }
 
-export default function Login({ errorPermiso }: LoginProps) {
+export default function PantallaLogin({ errorPermiso }: PantallaLoginProps) {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [enviando, setEnviando] = useState(false);

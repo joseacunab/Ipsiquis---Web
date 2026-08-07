@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
 import { Plus, Search, Edit2, Trash2, X, Save, ChevronUp, ChevronDown, PhoneCall } from 'lucide-react';
-import type { LineaEmergencia } from '../types';
-import { OPCIONES_ICONOS, IconoPorNombre } from '../iconos';
-import { crearLineaEmergencia, actualizarLineaEmergencia, eliminarLineaEmergencia, moverLineaEmergencia, siguienteOrden } from '../dataLayer';
+import type { LineaEmergencia } from '../modelos/tipos';
+import { OPCIONES_ICONOS, IconoPorNombre } from '../constantes/iconos';
+import { crearLineaEmergencia, actualizarLineaEmergencia, eliminarLineaEmergencia, moverLineaEmergencia, siguienteOrden } from '../servicios/firestore';
 
-interface LineasEmergenciaManagerProps {
+interface PantallaLineasEmergenciaProps {
   lineas: LineaEmergencia[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
   onConfirmar: (opts: { titulo: string; mensaje: string; onConfirmar: () => void; peligroso?: boolean }) => void;
@@ -16,7 +16,7 @@ function lineaVacia(orden: number): LineaEmergencia {
   return { id: generarId(), nombre: '', numero: '', descripcion: '', icono: 'phone', orden };
 }
 
-export default function LineasEmergenciaManager({ lineas, onNotificar, onConfirmar }: LineasEmergenciaManagerProps) {
+export default function PantallaLineasEmergencia({ lineas, onNotificar, onConfirmar }: PantallaLineasEmergenciaProps) {
   const [busqueda, setBusqueda] = useState('');
   const [editando, setEditando] = useState<LineaEmergencia | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Sun, Moon, AlertTriangle, Loader2, Settings } from 'lucide-react';
-import type { ConfiguracionApp } from '../types';
-import { establecerTemaApp } from '../dataLayer';
+import type { ConfiguracionApp } from '../modelos/tipos';
+import { establecerTemaApp } from '../servicios/firestore';
 
-interface ConfiguracionManagerProps {
+interface PantallaConfiguracionProps {
   configuracion: ConfiguracionApp | null;
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
 }
 
-export default function ConfiguracionManager({ configuracion, onNotificar }: ConfiguracionManagerProps) {
+export default function PantallaConfiguracion({ configuracion, onNotificar }: PantallaConfiguracionProps) {
   const [guardando, setGuardando] = useState(false);
   const tema = configuracion?.tema ?? 'light';
   const esOscuro = tema === 'dark';

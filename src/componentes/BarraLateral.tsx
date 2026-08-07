@@ -1,5 +1,5 @@
 import { LayoutDashboard, Tag, ClipboardList, Dumbbell, FileText, PhoneCall, Users, UserCircle, Heart, LogOut, Settings } from 'lucide-react';
-import type { Seccion } from '../types';
+import type { Seccion } from '../modelos/tipos';
 
 const itemsNavegacion: { key: Seccion; label: string; icon: React.ElementType }[] = [
   { key: 'dashboard', label: 'Panel', icon: LayoutDashboard },
@@ -13,14 +13,14 @@ const itemsNavegacion: { key: Seccion; label: string; icon: React.ElementType }[
   { key: 'configuracion', label: 'Configuración', icon: Settings },
 ];
 
-interface SidebarProps {
+interface BarraLateralProps {
   activa: Seccion;
   onCambiar: (s: Seccion) => void;
   colapsado: boolean;
   onCerrarSesion: () => void;
 }
 
-export default function Sidebar({ activa, onCambiar, colapsado, onCerrarSesion }: SidebarProps) {
+export default function BarraLateral({ activa, onCambiar, colapsado, onCerrarSesion }: BarraLateralProps) {
   return (
     <aside className={`fixed left-0 top-0 h-full bg-primary dark:bg-dark-bg text-text-inverse z-30 transition-all duration-300 shadow-sidebar flex flex-col ${colapsado ? 'w-20' : 'w-64'}`}>
       <div className="h-16 flex items-center gap-3 px-5 border-b border-white/10">

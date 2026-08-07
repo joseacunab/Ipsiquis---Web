@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import { Timestamp } from 'firebase/firestore';
 import { Plus, Search, Edit2, Trash2, X, Save, Users, Mail, Phone, IdCard } from 'lucide-react';
-import type { Paciente } from '../types';
-import { crearPaciente, actualizarPaciente, eliminarPaciente } from '../dataLayer';
-import { formatearFecha } from '../utils';
+import type { Paciente } from '../modelos/tipos';
+import { crearPaciente, actualizarPaciente, eliminarPaciente } from '../servicios/firestore';
+import { formatearFecha } from '../utilidades/ayudantes';
 
-interface PacientesManagerProps {
+interface PantallaPacientesProps {
   pacientes: Paciente[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
   onConfirmar: (opts: { titulo: string; mensaje: string; onConfirmar: () => void; peligroso?: boolean }) => void;
@@ -13,7 +13,7 @@ interface PacientesManagerProps {
 
 function generarId() { return 'pac-' + Math.random().toString(36).slice(2, 9); }
 
-export default function PacientesManager({ pacientes, onNotificar, onConfirmar }: PacientesManagerProps) {
+export default function PantallaPacientes({ pacientes, onNotificar, onConfirmar }: PantallaPacientesProps) {
   const [busqueda, setBusqueda] = useState('');
   const [creando, setCreando] = useState(false);
   const [editando, setEditando] = useState<Paciente | null>(null);

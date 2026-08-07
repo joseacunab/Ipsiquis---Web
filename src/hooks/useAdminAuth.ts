@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { auth, db } from '../servicios/firebase';
 
 export type EstadoAuth = 'verificando' | 'sinSesion' | 'autorizado';
 

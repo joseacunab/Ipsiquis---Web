@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
 import { Plus, Search, Edit2, Trash2, X, Save, ChevronUp, ChevronDown, Tag } from 'lucide-react';
-import type { Categoria } from '../types';
-import { OPCIONES_ICONOS, IconoPorNombre } from '../iconos';
-import { crearCategoria, actualizarCategoria, eliminarCategoria, moverCategoria, siguienteOrden } from '../dataLayer';
+import type { Categoria } from '../modelos/tipos';
+import { OPCIONES_ICONOS, IconoPorNombre } from '../constantes/iconos';
+import { crearCategoria, actualizarCategoria, eliminarCategoria, moverCategoria, siguienteOrden } from '../servicios/firestore';
 
-interface CategoriasManagerProps {
+interface PantallaCategoriasProps {
   categorias: Categoria[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
   onConfirmar: (opts: { titulo: string; mensaje: string; onConfirmar: () => void; peligroso?: boolean }) => void;
@@ -16,7 +16,7 @@ function categoriaVacia(orden: number): Categoria {
   return { id: generarId(), titulo: '', descripcion: '', icono: 'tag', orden };
 }
 
-export default function CategoriasManager({ categorias, onNotificar, onConfirmar }: CategoriasManagerProps) {
+export default function PantallaCategorias({ categorias, onNotificar, onConfirmar }: PantallaCategoriasProps) {
   const [busqueda, setBusqueda] = useState('');
   const [editando, setEditando] = useState<Categoria | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);

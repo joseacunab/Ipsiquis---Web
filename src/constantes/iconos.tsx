@@ -6,7 +6,7 @@ import {
   AlertTriangle, AlertCircle, Heart, Users, Bookmark, ListOrdered,
   Tag, Brain, Frown, Zap, BarChart, ListChecks, User, X, RotateCcw,
 } from 'lucide-react';
-import type { NombreIcono } from './types';
+import type { NombreIcono } from '../modelos/tipos';
 
 type ComponenteIcono = React.ComponentType<{ size?: number | string; className?: string }>;
 

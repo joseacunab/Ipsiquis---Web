@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, writeBatch } from 'firebase/firestore';
-import { db } from './firebase';
-import type { Test, Ejercicio, ArticuloBlog, PerfilPsicologo, Categoria, LineaEmergencia } from './types';
+import { db } from '../servicios/firebase';
+import type { Test, Ejercicio, ArticuloBlog, PerfilPsicologo, Categoria, LineaEmergencia } from './tipos';
 
 /*
  * Datos de ejemplo para arrancar un proyecto de Firestore vacío. Se escriben

@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Plus, Search, Edit2, Trash2, FileText, X, Save, Clock, BookOpen, ArrowLeft, ChevronsUp, ChevronsDown } from 'lucide-react';
-import type { ArticuloBlog, Categoria } from '../types';
-import { crearArticulo, actualizarArticulo, eliminarArticulo, moverArticulo, siguienteOrden } from '../dataLayer';
+import type { ArticuloBlog, Categoria } from '../modelos/tipos';
+import { crearArticulo, actualizarArticulo, eliminarArticulo, moverArticulo, siguienteOrden } from '../servicios/firestore';
 
-interface ArticulosBlogManagerProps {
+interface PantallaArticulosBlogProps {
   articulos: ArticuloBlog[];
   categorias: Categoria[];
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
@@ -16,7 +16,7 @@ function articuloVacio(orden: number, categoriaId: string): ArticuloBlog {
   return { id: generarId(), titulo: '', extracto: '', contenido: '', categoriaId, tiempoLectura: '5 min', orden };
 }
 
-export default function ArticulosBlogManager({ articulos, categorias, onNotificar, onConfirmar }: ArticulosBlogManagerProps) {
+export default function PantallaArticulosBlog({ articulos, categorias, onNotificar, onConfirmar }: PantallaArticulosBlogProps) {
   const [busqueda, setBusqueda] = useState('');
   const [filtroCategoria, setFiltroCategoria] = useState('all');
   const [editando, setEditando] = useState<ArticuloBlog | null>(null);

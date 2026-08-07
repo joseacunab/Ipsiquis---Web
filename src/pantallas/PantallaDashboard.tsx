@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { ClipboardList, Dumbbell, FileText, Users, Tag, PhoneCall, ArrowUpRight, Calendar, Layers, Sparkles, Loader2 } from 'lucide-react';
-import type { Test, Ejercicio, ArticuloBlog, Categoria, LineaEmergencia, Paciente, Seccion } from '../types';
-import { sembrarDatosIniciales } from '../seed';
-import { formatearFecha } from '../utils';
+import type { Test, Ejercicio, ArticuloBlog, Categoria, LineaEmergencia, Paciente, Seccion } from '../modelos/tipos';
+import { sembrarDatosIniciales } from '../modelos/datosSemilla';
+import { formatearFecha } from '../utilidades/ayudantes';
 
-interface DashboardProps {
+interface PantallaDashboardProps {
   categorias: Categoria[];
   tests: Test[];
   ejercicios: Ejercicio[];
@@ -15,7 +15,7 @@ interface DashboardProps {
   onNotificar: (mensaje: string, tipo: 'success' | 'error') => void;
 }
 
-export default function Dashboard({ categorias, tests, ejercicios, articulos, lineasEmergencia, pacientes, onNavegar, onNotificar }: DashboardProps) {
+export default function PantallaDashboard({ categorias, tests, ejercicios, articulos, lineasEmergencia, pacientes, onNavegar, onNotificar }: PantallaDashboardProps) {
   const [sembrando, setSembrando] = useState(false);
 
   const sembrar = async () => {
