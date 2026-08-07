@@ -7,6 +7,12 @@ export const NOMBRES_ICONOS = [
   'instagram', 'youtube', 'linkedin', 'clock', 'checkCircle', 'check',
   'alertTriangle', 'alertCircle', 'heart', 'users', 'bookmark', 'listOrdered',
   'tag', 'brain', 'frown', 'zap', 'barChart', 'listChecks', 'user', 'x', 'rotateCcw',
+  // Temática de psicología / bienestar
+  'brainCircuit', 'heartPulse', 'smile', 'meh', 'handHeart', 'heartHandshake',
+  'puzzle', 'lightbulb', 'sunrise', 'moon', 'cloudRain', 'waves', 'wind',
+  'leaf', 'sprout', 'scale', 'shieldCheck', 'ear', 'footprints', 'bed',
+  'coffee', 'notebookPen', 'messageCircleHeart', 'speech', 'activity',
+  'sparkles', 'target', 'compass', 'infinity', 'glasses', 'sofa',
 ] as const;
 
 export type NombreIcono = typeof NOMBRES_ICONOS[number];

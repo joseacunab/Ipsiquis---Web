@@ -131,7 +131,12 @@ export default function PantallaCategorias({ categorias, onNotificar, onConfirma
 
 function CategoriaFormulario({ categoria: inicial, guardando, onGuardar, onCancelar }: { categoria: Categoria; guardando: boolean; onGuardar: (c: Categoria) => void; onCancelar: () => void }) {
   const [categoria, setCategoria] = useState<Categoria>({ ...inicial });
+  const [busquedaIcono, setBusquedaIcono] = useState('');
   const actualizar = (patch: Partial<Categoria>) => setCategoria(prev => ({ ...prev, ...patch }));
+  const iconosFiltrados = useMemo(
+    () => OPCIONES_ICONOS.filter(nombre => nombre.toLowerCase().includes(busquedaIcono.toLowerCase())),
+    [busquedaIcono]
+  );
 
   return (
     <div className="modal-overlay" onClick={onCancelar}>
@@ -151,13 +156,31 @@ function CategoriaFormulario({ categoria: inicial, guardando, onGuardar, onCance
           </div>
           <div>
             <label className="block text-xs font-semibold text-text-muted dark:text-gray-400 uppercase mb-1.5">Ícono</label>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-btn bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light flex items-center justify-center flex-shrink-0">
                 <IconoPorNombre nombre={categoria.icono} size={18} />
               </div>
-              <select value={categoria.icono} onChange={e => actualizar({ icono: e.target.value as Categoria['icono'] })} className="select-field flex-1">
-                {OPCIONES_ICONOS.map(nombre => <option key={nombre} value={nombre}>{nombre}</option>)}
-              </select>
+              <input value={busquedaIcono} onChange={e => setBusquedaIcono(e.target.value)} className="input-field flex-1" placeholder="Buscar ícono..." />
+            </div>
+            <div className="grid grid-cols-6 gap-2 max-h-48 overflow-y-auto p-2 rounded-btn border border-divider dark:border-dark-border bg-surface-alt dark:bg-dark-surface-alt">
+              {iconosFiltrados.map(nombre => (
+                <button
+                  key={nombre}
+                  type="button"
+                  onClick={() => actualizar({ icono: nombre })}
+                  title={nombre}
+                  className={`flex items-center justify-center p-2.5 rounded-btn border transition-colors ${
+                    categoria.icono === nombre
+                      ? 'border-accent bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light'
+                      : 'border-transparent text-text-muted hover:bg-surface dark:text-gray-400 dark:hover:bg-dark-surface hover:text-text-primary dark:hover:text-white'
+                  }`}
+                >
+                  <IconoPorNombre nombre={nombre} size={20} />
+                </button>
+              ))}
+              {iconosFiltrados.length === 0 && (
+                <p className="col-span-6 text-center text-xs text-text-muted dark:text-gray-500 py-3">Sin resultados</p>
+              )}
             </div>
           </div>
         </div>
