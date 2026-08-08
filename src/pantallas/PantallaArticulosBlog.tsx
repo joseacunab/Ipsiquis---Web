@@ -130,7 +130,7 @@ export default function PantallaArticulosBlog({ articulos, categorias, onNotific
         {filtrados.map((art, i) => (
           <div key={art.id} className="card card-hover p-0 overflow-hidden flex flex-col">
             {art.imagenUrl && (
-              <img src={art.imagenUrl} alt={art.titulo} className="w-full h-[130px] object-cover rounded-t-card" />
+              <img src={art.imagenUrl} alt={art.titulo} className="w-full h-[130px] object-cover rounded-t-card dark:grayscale" />
             )}
             <div className="p-4 flex-1 flex flex-col">
               <div className="flex items-center gap-2 mb-2">
@@ -170,7 +170,7 @@ function ArticuloDetalle({ articulo, tituloCategoria, onVolver }: { articulo: Ar
       </button>
 
       {articulo.imagenUrl && (
-        <img src={articulo.imagenUrl} alt={articulo.titulo} className="w-full h-[300px] object-cover rounded-card" />
+        <img src={articulo.imagenUrl} alt={articulo.titulo} className="w-full h-[300px] object-cover rounded-card dark:grayscale" />
       )}
 
       <div className="card p-6">
