@@ -129,6 +129,9 @@ export default function PantallaArticulosBlog({ articulos, categorias, onNotific
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {filtrados.map((art, i) => (
           <div key={art.id} className="card card-hover p-0 overflow-hidden flex flex-col">
+            {art.imagenUrl && (
+              <img src={art.imagenUrl} alt={art.titulo} className="w-full h-[130px] object-cover rounded-t-card" />
+            )}
             <div className="p-4 flex-1 flex flex-col">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[10px] font-bold text-white px-2 py-0.5 rounded-chip bg-accent">{tituloCategoria(art.categoriaId)}</span>
@@ -165,6 +168,10 @@ function ArticuloDetalle({ articulo, tituloCategoria, onVolver }: { articulo: Ar
       <button onClick={onVolver} className="flex items-center gap-2 text-sm font-medium text-text-muted hover:text-text-primary dark:text-gray-400 dark:hover:text-white transition-colors">
         <ArrowLeft size={16} /> Volver a Artículos
       </button>
+
+      {articulo.imagenUrl && (
+        <img src={articulo.imagenUrl} alt={articulo.titulo} className="w-full h-[300px] object-cover rounded-card" />
+      )}
 
       <div className="card p-6">
         <div className="flex items-center gap-2 mb-3">
