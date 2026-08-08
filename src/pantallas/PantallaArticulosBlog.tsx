@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Plus, Search, Edit2, Trash2, FileText, X, Save, Clock, BookOpen, ArrowLeft, ChevronsUp, ChevronsDown } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, FileText, X, Save, Clock, BookOpen, ArrowLeft, ChevronsUp, ChevronsDown, Image as ImageIcon, Loader2 } from 'lucide-react';
 import type { ArticuloBlog, Categoria } from '../modelos/tipos';
 import { crearArticulo, actualizarArticulo, eliminarArticulo, moverArticulo, siguienteOrden } from '../servicios/firestore';
 
@@ -14,6 +14,22 @@ function generarId() { return 'art-' + Math.random().toString(36).slice(2, 9); }
 
 function articuloVacio(orden: number, categoriaId: string): ArticuloBlog {
   return { id: generarId(), titulo: '', extracto: '', contenido: '', categoriaId, tiempoLectura: '5 min', orden };
+}
+
+async function subirImagenArticulo(archivo: File): Promise<string> {
+  const formData = new FormData();
+  formData.append('archivo', archivo);
+  const respuesta = await fetch('/api/subir-imagen', {
+    method: 'POST',
+    headers: { 'X-Clave-Subida': import.meta.env.VITE_CLAVE_SUBIDA_IMAGENES },
+    body: formData,
+  });
+  if (!respuesta.ok) {
+    const detalle = await respuesta.text().catch(() => '');
+    throw new Error(detalle || `Error ${respuesta.status} al subir la imagen`);
+  }
+  const datos = await respuesta.json();
+  return datos.url as string;
 }
 
 export default function PantallaArticulosBlog({ articulos, categorias, onNotificar, onConfirmar }: PantallaArticulosBlogProps) {
@@ -39,6 +55,7 @@ export default function PantallaArticulosBlog({ articulos, categorias, onNotific
   const guardarArticulo = async (articulo: ArticuloBlog) => {
     const existe = articulos.some(a => a.id === articulo.id);
     setGuardando(true);
+    console.log('[ArticulosBlog] Objeto a guardar en Firestore:', articulo);
     try {
       await (existe ? actualizarArticulo(articulo) : crearArticulo(articulo));
       setEditando(null);
@@ -170,6 +187,35 @@ function ArticuloFormulario({ articulo: inicial, categorias, guardando, onGuarda
   const [art, setArt] = useState<ArticuloBlog>({ ...inicial });
   const actualizar = (patch: Partial<ArticuloBlog>) => setArt(prev => ({ ...prev, ...patch }));
 
+  const [archivoImagen, setArchivoImagen] = useState<File | null>(null);
+  const [previewImagen, setPreviewImagen] = useState<string | null>(inicial.imagenUrl ?? null);
+  const [subiendoImagen, setSubiendoImagen] = useState(false);
+  const [errorImagen, setErrorImagen] = useState<string | null>(null);
+
+  const manejarSeleccionImagen = (archivo: File | null) => {
+    setArchivoImagen(archivo);
+    setErrorImagen(null);
+    setPreviewImagen(archivo ? URL.createObjectURL(archivo) : (inicial.imagenUrl ?? null));
+  };
+
+  const manejarGuardar = async () => {
+    if (!archivoImagen) {
+      onGuardar(art);
+      return;
+    }
+    setSubiendoImagen(true);
+    setErrorImagen(null);
+    try {
+      const imagenUrl = await subirImagenArticulo(archivoImagen);
+      console.log('[ArticulosBlog] URL recibida de /api/subir-imagen:', imagenUrl);
+      onGuardar({ ...art, imagenUrl });
+    } catch (error) {
+      setErrorImagen(`No se pudo subir la imagen: ${(error as Error).message}`);
+    } finally {
+      setSubiendoImagen(false);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onCancelar}>
       <div className="modal-box max-w-2xl" onClick={e => e.stopPropagation()}>
@@ -191,6 +237,27 @@ function ArticuloFormulario({ articulo: inicial, categorias, guardando, onGuarda
             </div>
           </div>
           <div>
+            <label className="block text-xs font-semibold text-text-muted dark:text-gray-400 uppercase mb-1.5">Imagen</label>
+            <div className="flex items-center gap-4">
+              {previewImagen ? (
+                <img src={previewImagen} alt="Vista previa" className="w-20 h-20 rounded-btn object-cover border border-divider dark:border-dark-border" />
+              ) : (
+                <div className="w-20 h-20 rounded-btn border border-dashed border-divider dark:border-dark-border flex items-center justify-center text-text-muted dark:text-gray-500">
+                  <ImageIcon size={20} />
+                </div>
+              )}
+              <div className="flex-1">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={e => manejarSeleccionImagen(e.target.files?.[0] ?? null)}
+                  className="block w-full text-xs text-text-muted dark:text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-btn file:border-0 file:text-xs file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/90 file:cursor-pointer cursor-pointer"
+                />
+                {errorImagen && <p className="text-xs text-error mt-1.5">{errorImagen}</p>}
+              </div>
+            </div>
+          </div>
+          <div>
             <label className="block text-xs font-semibold text-text-muted dark:text-gray-400 uppercase mb-1.5">Extracto</label>
             <textarea value={art.extracto} onChange={e => actualizar({ extracto: e.target.value })} className="textarea-field" rows={2} placeholder="Breve descripción para listados..." />
           </div>
@@ -205,7 +272,9 @@ function ArticuloFormulario({ articulo: inicial, categorias, guardando, onGuarda
         </div>
         <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-divider dark:border-dark-border">
           <button onClick={onCancelar} className="btn-secondary">Cancelar</button>
-          <button onClick={() => onGuardar(art)} disabled={guardando} className="btn-primary flex items-center gap-2 disabled:opacity-60"><Save size={16} /> Guardar</button>
+          <button onClick={manejarGuardar} disabled={guardando || subiendoImagen} className="btn-primary flex items-center gap-2 disabled:opacity-60">
+            {subiendoImagen ? <><Loader2 size={16} className="animate-spin" /> Subiendo imagen...</> : <><Save size={16} /> Guardar</>}
+          </button>
         </div>
       </div>
     </div>

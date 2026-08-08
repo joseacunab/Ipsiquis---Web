@@ -53,6 +53,7 @@ export interface ArticuloBlog {
   categoriaId: string;
   tiempoLectura: string;
   orden: number;
+  imagenUrl?: string;
 }
 
 export interface Categoria {
